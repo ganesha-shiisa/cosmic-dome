@@ -16,7 +16,8 @@ class EditorCameraMover : MonoBehaviour
     void OnEnable()
     {
         // 現在のカメラの向きを初期値として取得
-        Vector3 angles = transform.eulerAngles;
+        Vector3 angles = Vector3.zero;
+        transform.eulerAngles = angles;
         yaw = angles.y;
         pitch = angles.x;
     }
