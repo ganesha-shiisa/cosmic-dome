@@ -17,7 +17,7 @@ public class CubemapExporter : EditorWindow
     private void OnGUI()
     {
         GUILayout.Label("360度 Cubemap (6面PNG) 書き出しツール", EditorStyles.boldLabel);
-        
+
         imageSize = EditorGUILayout.IntField("Image Size (px)", imageSize);
         targetPosition = (Transform)EditorGUILayout.ObjectField("Target Transform", targetPosition, typeof(Transform), true);
         simulationTime = EditorGUILayout.FloatField("Simulation Time (sec)", simulationTime);
@@ -32,21 +32,21 @@ public class CubemapExporter : EditorWindow
 
     private void ExportCubemapFaces()
     {
-        // 1. シーン内のすべてのParticleSystemを事前にシミュレーションして進めておく
-        ParticleSystem[] particleSystems = Object.FindObjectsByType<ParticleSystem>(FindObjectsSortMode.None);
+        // シーン内のすべてのParticleSystemを事前にシミュレーションして進めておく
+        ParticleSystem[] particleSystems = FindObjectsByType<ParticleSystem>(FindObjectsInactive.Include);
         foreach (var ps in particleSystems)
         {
             ps.Simulate(simulationTime, true, true);
             ps.Pause();
         }
 
-        // 2. 一時的なカメラ用GameObjectを作成
+        // 一時的なカメラ用GameObjectを作成
         GameObject camObj = new GameObject("TempCubemapCamera");
         Camera cam = camObj.AddComponent<Camera>();
         cam.fieldOfView = 90f;
         cam.aspect = 1f;
-        
-        // ★ここで背景を「黒の単色」に指定してスカイボックスの写り込みを防止！
+
+        // 背景を「黒の単色」に指定してスカイボックスの写り込みを防止
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = Color.black;
 
