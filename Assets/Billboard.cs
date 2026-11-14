@@ -1,0 +1,22 @@
+using System.Numerics;
+using UnityEngine;
+
+[ExecuteAlways]
+public class Billboard : MonoBehaviour
+{
+    [SerializeField]
+    public float zRotation;
+
+    Camera cam;
+
+    void Start()
+    {
+        cam = Camera.main;
+    }
+
+    void LateUpdate()
+    {
+        transform.LookAt(cam.transform);
+        transform.Rotate(0, 0, zRotation);
+    }
+}
